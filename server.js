@@ -26,12 +26,9 @@ async function getAccessToken() {
     console.log("User ID:", process.env.DS_USER_ID);
     console.log("Private Key Path:", process.env.DS_PRIVATE_KEY_PATH);
 
-    const privateKey = fs.readFileSync(
-      path.resolve(process.env.DS_PRIVATE_KEY_PATH),
-      "utf8"
-    );
-    console.log("Private Key loaded:", privateKey.substring(0, 40) + "...");
-
+  const privateKey = process.env.DS_PRIVATE_KEY || 
+  fs.readFileSync(path.resolve(process.env.DS_PRIVATE_KEY_PATH), "utf8");
+console.log("Private Key loaded:", privateKey.substring(0, 40) + "...");
 
 const results = await apiClient.requestJWTUserToken(
   process.env.DS_INTEGRATION_KEY,
