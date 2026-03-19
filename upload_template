@@ -1,0 +1,33 @@
+import "dotenv/config";
+import fs from "fs";
+import path from "path";
+import docusign from "docusign-esign";
+
+const templateData = JSON.parse(
+  fs.readFileSync("./template_credito_personal.json", "utf8")
+);
+
+const apiClient = new docusign.ApiClient();
+apiClient.setOAuthBasePath(process.env.DS_AUTH_SERVER);
+
+// Lee la llave privada igual que en server.js
+const privateKey = process.env.DS_PRIVATE_KEY ||
+  fs.readFileSync(path.resolve(process.env.DS_PRIVATE_KEY_PATH), "utf8");
+
+const results = await apiClient.requestJWTUserToken(
+  process.env.DS_INTEGRATION_KEY,
+  process.env.DS_USER_ID,
+  ["signature", "impersonation"],
+  privateKey,
+  3600
+);
+
+apiClient.setBasePath(process.env.DS_BASE_URL);
+apiClient.addDefaultHeader("Authorization", "Bearer " + results.body.access_token);
+
+const templatesApi = new docusign.TemplatesApi(apiClient);
+const response = await templatesApi.createTemplate(process.env.DS_ACCOUNT_ID, {
+  envelopeTemplate: templateData
+});
+
+console.log("✅ Template creado con ID:", response.templateId);

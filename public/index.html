@@ -3,540 +3,319 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Demo Firma Embebida — DocuSign</title>
+  <title>Solicitud de Crédito Personal — Banco Demo</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --bg: #FAF9F6;
-      --bg-card: #FFFFFF;
-      --text: #1A1A1A;
-      --text-muted: #6B6B6B;
-      --accent: #6C5CE7;
-      --accent-hover: #5A4BD1;
-      --accent-light: #EDE9FF;
-      --border: #E8E6E1;
-      --success: #00B894;
-      --success-bg: #E6FAF4;
-      --error: #E17055;
-      --error-bg: #FDF0ED;
-      --warning-bg: #FFF8E1;
-      --warning: #F39C12;
-      --radius: 12px;
-      --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.06);
-      --font: 'DM Sans', system-ui, sans-serif;
-      --mono: 'DM Mono', monospace;
+      --bg: #FAF9F6; --bg-card: #FFFFFF; --text: #1A1A1A; --text-muted: #6B6B6B;
+      --accent: #6C5CE7; --accent-hover: #5A4BD1; --accent-light: #EDE9FF;
+      --border: #E8E6E1; --success: #00B894; --success-bg: #E6FAF4;
+      --error: #E17055; --error-bg: #FDF0ED; --warning-bg: #FFF8E1;
+      --radius: 12px; --shadow: 0 1px 3px rgba(0,0,0,0.04), 0 4px 12px rgba(0,0,0,0.06);
+      --font: 'DM Sans', system-ui, sans-serif; --mono: 'DM Mono', monospace;
     }
-
-    body {
-      font-family: var(--font);
-      background: var(--bg);
-      color: var(--text);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 40px 20px;
-    }
-
-    .container {
-      width: 100%;
-      max-width: 720px;
-    }
-
-    /* ── Header ── */
-    header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-
-    header .badge {
-      display: inline-block;
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: var(--accent-light);
-      padding: 4px 12px;
-      border-radius: 20px;
-      margin-bottom: 16px;
-    }
-
-    header h1 {
-      font-size: 28px;
-      font-weight: 600;
-      letter-spacing: -0.02em;
-      margin-bottom: 8px;
-    }
-
-    header p {
-      color: var(--text-muted);
-      font-size: 15px;
-      line-height: 1.5;
-    }
-
-    /* ── Steps indicator ── */
-    .steps {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 32px;
-    }
-
-    .step-dot {
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--border);
-      transition: all 0.3s ease;
-    }
-
-    .step-dot.active {
-      background: var(--accent);
-      box-shadow: 0 0 0 4px var(--accent-light);
-    }
-
-    .step-dot.done {
-      background: var(--success);
-    }
-
-    /* ── Card ── */
-    .card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 32px;
-      margin-bottom: 20px;
-      transition: all 0.3s ease;
-    }
-
+    body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 40px 20px; }
+    .container { width: 100%; max-width: 760px; }
+    header { text-align: center; margin-bottom: 40px; }
+    header .badge { display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; }
+    header h1 { font-size: 28px; font-weight: 600; letter-spacing: -.02em; margin-bottom: 8px; }
+    header p { color: var(--text-muted); font-size: 15px; line-height: 1.5; }
+    .steps { display: flex; justify-content: center; gap: 8px; margin-bottom: 32px; }
+    .step-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--border); transition: all .3s; }
+    .step-dot.active { background: var(--accent); box-shadow: 0 0 0 4px var(--accent-light); }
+    .step-dot.done { background: var(--success); }
+    .card { background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); padding: 32px; margin-bottom: 20px; }
     .card.hidden { display: none; }
-
-    .card h2 {
-      font-size: 18px;
-      font-weight: 500;
-      margin-bottom: 4px;
-    }
-
-    .card .subtitle {
-      font-size: 13px;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-    }
-
-    /* ── Form ── */
-    .field {
-      margin-bottom: 18px;
-    }
-
-    .field label {
-      display: block;
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-    }
-
-    .field input {
-      width: 100%;
-      font-family: var(--font);
-      font-size: 15px;
-      padding: 12px 16px;
-      border: 1.5px solid var(--border);
-      border-radius: 8px;
-      background: var(--bg);
-      color: var(--text);
-      outline: none;
-      transition: border-color 0.2s;
-    }
-
-    .field input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 3px var(--accent-light);
-    }
-
-    .field input::placeholder {
-      color: #B8B5AD;
-    }
-
-    /* ── Buttons ── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-family: var(--font);
-      font-size: 15px;
-      font-weight: 500;
-      padding: 12px 28px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      width: 100%;
-    }
-
-    .btn-primary {
-      background: var(--accent);
-      color: white;
-    }
-
-    .btn-primary:hover:not(:disabled) {
-      background: var(--accent-hover);
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(108, 92, 231, 0.3);
-    }
-
-    .btn-primary:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--accent);
-      border: 1.5px solid var(--accent);
-    }
-
-    .btn-outline:hover {
-      background: var(--accent-light);
-    }
-
-    /* ── Loading spinner ── */
-    .spinner {
-      width: 18px;
-      height: 18px;
-      border: 2px solid rgba(255,255,255,0.3);
-      border-top-color: white;
-      border-radius: 50%;
-      animation: spin 0.6s linear infinite;
-    }
-
+    .card h2 { font-size: 18px; font-weight: 500; margin-bottom: 4px; }
+    .card .subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; }
+    .section-label { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 24px 0 14px; padding-bottom: 8px; border-bottom: 1.5px solid var(--accent-light); display: flex; align-items: center; gap: 8px; }
+    .section-label::before { content:''; display:inline-block; width:4px; height:14px; background:var(--accent); border-radius:2px; flex-shrink:0; }
+    .field-row { display: grid; gap: 14px; margin-bottom: 0; }
+    .field-row.cols-2 { grid-template-columns: 1fr 1fr; }
+    .field-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .field-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: 12px; font-weight: 500; color: var(--text-muted); margin-bottom: 6px; }
+    .field input, .field select { width: 100%; font-family: var(--font); font-size: 14px; padding: 10px 14px; border: 1.5px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); outline: none; transition: border-color .2s; appearance: none; }
+    .field input:focus, .field select:focus { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-light); }
+    .field input::placeholder { color: #C0BFBA; }
+    .input-prefix { position: relative; }
+    .input-prefix span { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 14px; pointer-events: none; }
+    .input-prefix input { padding-left: 26px; }
+    .credit-summary { background: var(--accent-light); border-radius: 10px; padding: 14px 18px; margin: 4px 0 18px; font-size: 13px; color: var(--accent); display: none; gap: 20px; flex-wrap: wrap; align-items: center; }
+    .credit-summary.visible { display: flex; }
+    .credit-summary .cs-item { display: flex; flex-direction: column; gap: 2px; }
+    .credit-summary .cs-label { font-size: 10px; opacity: .7; text-transform: uppercase; letter-spacing: .08em; }
+    .credit-summary .cs-value { font-weight: 600; font-size: 15px; }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; font-family: var(--font); font-size: 15px; font-weight: 500; padding: 13px 28px; border: none; border-radius: 8px; cursor: pointer; transition: all .2s; width: 100%; }
+    .btn-primary { background: var(--accent); color: white; }
+    .btn-primary:hover:not(:disabled) { background: var(--accent-hover); transform: translateY(-1px); box-shadow: 0 4px 12px rgba(108,92,231,.3); }
+    .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
+    .btn-outline { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
+    .btn-outline:hover { background: var(--accent-light); }
+    .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3); border-top-color: white; border-radius: 50%; animation: spin .6s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* ── Signing container ── */
-    .signing-frame-wrapper {
-      width: 100%;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      box-shadow: var(--shadow);
-    }
-
-    .signing-frame-wrapper .frame-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 20px;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-
-    .signing-frame-wrapper .frame-header .live-dot {
-      width: 8px;
-      height: 8px;
-      background: var(--success);
-      border-radius: 50%;
-      display: inline-block;
-      margin-right: 6px;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
-    .signing-frame-wrapper iframe {
-      width: 100%;
-      height: 600px;
-      border: none;
-    }
-
-    /* ── Status messages ── */
-    .status-msg {
-      padding: 14px 18px;
-      border-radius: 8px;
-      font-size: 14px;
-      line-height: 1.5;
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-    }
-
+    .signing-frame-wrapper { width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+    .frame-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--bg); border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
+    .live-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; display: inline-block; margin-right: 6px; animation: pulse 2s ease-in-out infinite; }
+    @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
+    .signing-frame-wrapper iframe { width: 100%; height: 620px; border: none; }
+    .status-msg { padding: 14px 18px; border-radius: 8px; font-size: 14px; line-height: 1.5; display: flex; align-items: flex-start; gap: 10px; }
     .status-msg.success { background: var(--success-bg); color: #065F46; }
     .status-msg.error { background: var(--error-bg); color: #922B21; }
     .status-msg.warning { background: var(--warning-bg); color: #7D6608; }
-
     .status-msg .icon { font-size: 18px; flex-shrink: 0; }
-
-    /* ── Result card ── */
-    .result-detail {
-      margin-top: 16px;
-      padding: 12px 16px;
-      background: var(--bg);
-      border-radius: 8px;
-      font-family: var(--mono);
-      font-size: 13px;
-      color: var(--text-muted);
-      line-height: 1.7;
-    }
-
-    /* ── Footer ── */
-    footer {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    footer a {
-      color: var(--accent);
-      text-decoration: none;
-    }
-
-    /* ── Animations ── */
-    .fade-in {
-      animation: fadeIn 0.4s ease;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    .result-detail { margin-top: 16px; padding: 12px 16px; background: var(--bg); border-radius: 8px; font-family: var(--mono); font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+    footer { text-align: center; margin-top: 40px; font-size: 12px; color: var(--text-muted); }
+    footer a { color: var(--accent); text-decoration: none; }
+    .fade-in { animation: fadeIn .4s ease; }
+    @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+    @media (max-width:600px) { .field-row.cols-2,.field-row.cols-3,.field-row.cols-4 { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
-  <div class="container">
-
-    <!-- Header -->
-    <header>
-      <div class="badge">Demo en vivo</div>
-      <h1>Firma electrónica embebida</h1>
-      <p>Ingresa los datos del firmante para iniciar una sesión de firma<br>directamente desde esta página usando la API de DocuSign.</p>
-    </header>
-
-    <!-- Step dots -->
-    <div class="steps">
-      <div class="step-dot active" id="dot-1"></div>
-      <div class="step-dot" id="dot-2"></div>
-      <div class="step-dot" id="dot-3"></div>
-    </div>
-
-    <!-- STEP 1: Formulario -->
-    <div class="card" id="step-form">
-      <h2>Datos del firmante</h2>
-      <p class="subtitle">Estos datos se enviarán a DocuSign para crear el sobre.</p>
-
-      <div class="field">
-        <label for="signerName">Nombre completo</label>
-        <input type="text" id="signerName" placeholder="Ej. María García López" autocomplete="name">
-      </div>
-
-      <div class="field">
-        <label for="signerEmail">Correo electrónico</label>
-        <input type="email" id="signerEmail" placeholder="Ej. maria@empresa.com" autocomplete="email">
-      </div>
-
-      <div id="form-error" class="status-msg error" style="display: none; margin-bottom: 16px;"></div>
-
-      <button class="btn btn-primary" id="btnSign" onclick="startSigning()">
-        Iniciar firma embebida
-      </button>
-    </div>
-
-    <!-- STEP 2: Iframe de firma -->
-    <div id="step-signing" class="hidden">
-      <div class="signing-frame-wrapper fade-in">
-        <div class="frame-header">
-          <span><span class="live-dot"></span> Sesión de firma activa</span>
-          <span id="envelope-id-display" style="font-family: var(--mono); font-size: 12px;"></span>
-        </div>
-        <iframe id="signing-iframe" title="DocuSign Signing Session"></iframe>
-      </div>
-    </div>
-
-    <!-- STEP 3: Resultado -->
-    <div class="card hidden" id="step-result">
-      <div id="result-content"></div>
-    </div>
-
-    <footer>
-      Integración con <a href="https://developers.docusign.com" target="_blank" rel="noopener">DocuSign eSignature API</a>
-      &middot; Ambiente de demostración
-    </footer>
+<div class="container">
+  <header>
+    <div class="badge">Demo en vivo</div>
+    <h1>Solicitud de Crédito Personal</h1>
+    <p>Completa tu solicitud. Se generará un PDF con tus datos<br>y lo firmarás directamente con DocuSign.</p>
+  </header>
+  <div class="steps">
+    <div class="step-dot active" id="dot-1"></div>
+    <div class="step-dot" id="dot-2"></div>
+    <div class="step-dot" id="dot-3"></div>
   </div>
 
-  <script>
-    // ── State ──
-    let currentEnvelopeId = null;
+  <!-- STEP 1 -->
+  <div class="card" id="step-form">
+    <h2>Datos de la solicitud</h2>
+    <p class="subtitle">Todos los campos se incluirán en el documento que firmarás electrónicamente.</p>
 
-    // ── Step navigation ──
-    function goToStep(step) {
-      document.getElementById('step-form').classList.toggle('hidden', step !== 1);
-      document.getElementById('step-signing').classList.toggle('hidden', step !== 2);
-      document.getElementById('step-result').classList.toggle('hidden', step !== 3);
+    <div class="section-label">Datos Personales</div>
+    <div class="field"><label>Nombre completo *</label><input type="text" id="signerName" placeholder="María García López" autocomplete="name"></div>
+    <div class="field-row cols-2">
+      <div class="field"><label>Fecha de nacimiento *</label><input type="date" id="fechaNacimiento"></div>
+      <div class="field"><label>Lugar de nacimiento</label><input type="text" id="lugarNacimiento" placeholder="Ciudad de México"></div>
+    </div>
+    <div class="field-row cols-3">
+      <div class="field"><label>RFC *</label><input type="text" id="rfc" placeholder="GAML850101AB1" maxlength="13"></div>
+      <div class="field"><label>CURP</label><input type="text" id="curp" placeholder="GAML850101MDFRCR09" maxlength="18"></div>
+      <div class="field"><label>Estado civil</label>
+        <select id="estadoCivil"><option value="">Selecciona</option><option>Soltero(a)</option><option>Casado(a)</option><option>Divorciado(a)</option><option>Viudo(a)</option><option>Unión libre</option></select>
+      </div>
+    </div>
+    <div class="field-row cols-2">
+      <div class="field"><label>Nacionalidad</label><input type="text" id="nacionalidad" value="Mexicana"></div>
+      <div class="field"><label>Correo electrónico *</label><input type="email" id="signerEmail" placeholder="maria@empresa.com" autocomplete="email"></div>
+    </div>
+    <div class="field-row cols-2">
+      <div class="field"><label>Teléfono celular *</label><input type="tel" id="telefono" placeholder="55 1234 5678" maxlength="15"></div>
+    </div>
 
-      for (let i = 1; i <= 3; i++) {
-        const dot = document.getElementById(`dot-${i}`);
-        dot.classList.remove('active', 'done');
-        if (i < step) dot.classList.add('done');
-        if (i === step) dot.classList.add('active');
+    <div class="section-label">Domicilio</div>
+    <div class="field"><label>Calle, número y colonia</label><input type="text" id="domicilio" placeholder="Av. Insurgentes Sur 1234, Col. Del Valle"></div>
+    <div class="field-row cols-4">
+      <div class="field" style="grid-column:span 2"><label>Ciudad / Municipio</label><input type="text" id="ciudad" placeholder="Ciudad de México"></div>
+      <div class="field"><label>Estado</label><input type="text" id="estado" placeholder="CDMX"></div>
+      <div class="field"><label>Código postal</label><input type="text" id="codigoPostal" placeholder="03100" maxlength="5"></div>
+    </div>
+
+    <div class="section-label">Información Laboral y Financiera</div>
+    <div class="field"><label>Empresa / Empleador</label><input type="text" id="empresa" placeholder="Nombre de la empresa"></div>
+    <div class="field-row cols-2">
+      <div class="field"><label>Puesto / Cargo</label><input type="text" id="puesto" placeholder="Analista de Sistemas"></div>
+      <div class="field"><label>Antigüedad laboral</label>
+        <select id="antiguedad"><option value="">Selecciona</option><option>Menos de 1 año</option><option>1 - 2 años</option><option>2 - 5 años</option><option>5 - 10 años</option><option>Más de 10 años</option></select>
+      </div>
+    </div>
+    <div class="field-row cols-2">
+      <div class="field"><label>Ingreso mensual neto *</label><div class="input-prefix"><span>$</span><input type="number" id="ingresoMensual" placeholder="15,000" min="0"></div></div>
+      <div class="field"><label>Otros ingresos mensuales</label><div class="input-prefix"><span>$</span><input type="number" id="otrosIngresos" placeholder="0" min="0"></div></div>
+    </div>
+
+    <div class="section-label">Condiciones del Crédito</div>
+    <div class="field-row cols-2">
+      <div class="field"><label>Monto solicitado *</label><div class="input-prefix"><span>$</span><input type="number" id="creditAmount" placeholder="50,000" min="5000" max="500000" step="1000"></div></div>
+      <div class="field"><label>Plazo *</label>
+        <select id="creditTerm"><option value="">Selecciona plazo</option><option value="6">6 meses</option><option value="12">12 meses</option><option value="18">18 meses</option><option value="24">24 meses</option><option value="36">36 meses</option><option value="48">48 meses</option><option value="60">60 meses</option></select>
+      </div>
+    </div>
+    <div class="field"><label>Destino del crédito</label>
+      <select id="destinoCredito"><option value="">Selecciona</option><option>Gastos personales</option><option>Consolidación de deudas</option><option>Mejoras al hogar</option><option>Educación</option><option>Viaje</option><option>Emergencia médica</option><option>Otro</option></select>
+    </div>
+
+    <div class="credit-summary" id="creditSummary">
+      <div class="cs-item"><span class="cs-label">Monto</span><span class="cs-value" id="summaryAmount">—</span></div>
+      <div class="cs-item"><span class="cs-label">Plazo</span><span class="cs-value" id="summaryTerm">—</span></div>
+      <div class="cs-item"><span class="cs-label">Pago mensual est.</span><span class="cs-value" id="summaryMonthly">—</span></div>
+      <div class="cs-item"><span class="cs-label">Total a pagar est.</span><span class="cs-value" id="summaryTotal">—</span></div>
+    </div>
+
+    <div id="form-error" class="status-msg error" style="display:none;margin-bottom:16px;"></div>
+    <button class="btn btn-primary" id="btnSign" onclick="startSigning()">Generar y firmar solicitud →</button>
+  </div>
+
+  <!-- STEP 2 -->
+  <div id="step-signing" class="hidden">
+    <div class="signing-frame-wrapper fade-in">
+      <div class="frame-header">
+        <span><span class="live-dot"></span> Sesión de firma activa</span>
+        <span id="envelope-id-display" style="font-family:var(--mono);font-size:12px;"></span>
+      </div>
+      <iframe id="signing-iframe" title="DocuSign Signing Session"></iframe>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="card hidden" id="step-result"><div id="result-content"></div></div>
+
+  <footer>Integración con <a href="https://developers.docusign.com" target="_blank" rel="noopener">DocuSign eSignature API</a> · Ambiente de demostración</footer>
+</div>
+
+<script>
+  let currentEnvelopeId = null;
+
+  function updateSummary() {
+    const amount = parseFloat(document.getElementById('creditAmount').value);
+    const term = parseInt(document.getElementById('creditTerm').value);
+    const summary = document.getElementById('creditSummary');
+    if (amount > 0 && term > 0) {
+      const r = 0.18 / 12;
+      const monthly = (amount * r * Math.pow(1+r,term)) / (Math.pow(1+r,term) - 1);
+      const fmt = n => '$' + n.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      document.getElementById('summaryAmount').textContent = fmt(amount);
+      document.getElementById('summaryTerm').textContent = term + ' meses';
+      document.getElementById('summaryMonthly').textContent = fmt(monthly);
+      document.getElementById('summaryTotal').textContent = fmt(monthly * term);
+      summary.classList.add('visible');
+    } else { summary.classList.remove('visible'); }
+  }
+  document.getElementById('creditAmount').addEventListener('input', updateSummary);
+  document.getElementById('creditTerm').addEventListener('change', updateSummary);
+
+  function goToStep(step) {
+    document.getElementById('step-form').classList.toggle('hidden', step !== 1);
+    document.getElementById('step-signing').classList.toggle('hidden', step !== 2);
+    document.getElementById('step-result').classList.toggle('hidden', step !== 3);
+    for (let i = 1; i <= 3; i++) {
+      const d = document.getElementById(`dot-${i}`);
+      d.classList.remove('active','done');
+      if (i < step) d.classList.add('done');
+      if (i === step) d.classList.add('active');
+    }
+  }
+
+  function getFormData() {
+    return {
+      signerName: document.getElementById('signerName').value.trim(),
+      signerEmail: document.getElementById('signerEmail').value.trim(),
+      fechaNacimiento: document.getElementById('fechaNacimiento').value,
+      lugarNacimiento: document.getElementById('lugarNacimiento').value.trim(),
+      rfc: document.getElementById('rfc').value.trim().toUpperCase(),
+      curp: document.getElementById('curp').value.trim().toUpperCase(),
+      estadoCivil: document.getElementById('estadoCivil').value,
+      nacionalidad: document.getElementById('nacionalidad').value.trim(),
+      telefono: document.getElementById('telefono').value.trim(),
+      domicilio: document.getElementById('domicilio').value.trim(),
+      ciudad: document.getElementById('ciudad').value.trim(),
+      estado: document.getElementById('estado').value.trim(),
+      codigoPostal: document.getElementById('codigoPostal').value.trim(),
+      empresa: document.getElementById('empresa').value.trim(),
+      puesto: document.getElementById('puesto').value.trim(),
+      antiguedad: document.getElementById('antiguedad').value,
+      ingresoMensual: document.getElementById('ingresoMensual').value,
+      otrosIngresos: document.getElementById('otrosIngresos').value || '0',
+      creditAmount: document.getElementById('creditAmount').value,
+      creditTerm: document.getElementById('creditTerm').value,
+      destinoCredito: document.getElementById('destinoCredito').value,
+    };
+  }
+
+  async function startSigning() {
+    const data = getFormData();
+    const errorEl = document.getElementById('form-error');
+    const btn = document.getElementById('btnSign');
+    errorEl.style.display = 'none';
+
+    const required = [
+      { key: 'signerName', label: 'Nombre completo' },
+      { key: 'signerEmail', label: 'Correo electrónico' },
+      { key: 'fechaNacimiento', label: 'Fecha de nacimiento' },
+      { key: 'rfc', label: 'RFC' },
+      { key: 'telefono', label: 'Teléfono' },
+      { key: 'ingresoMensual', label: 'Ingreso mensual' },
+      { key: 'creditAmount', label: 'Monto solicitado' },
+      { key: 'creditTerm', label: 'Plazo' },
+    ];
+    for (const f of required) {
+      if (!data[f.key]) {
+        errorEl.innerHTML = `<span class="icon">⚠</span> El campo <strong>${f.label}</strong> es obligatorio.`;
+        errorEl.style.display = 'flex'; return;
       }
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.signerEmail)) {
+      errorEl.innerHTML = '<span class="icon">⚠</span> El correo electrónico no es válido.';
+      errorEl.style.display = 'flex'; return;
+    }
 
-    // ── Start signing flow ──
-    async function startSigning() {
-      const name = document.getElementById('signerName').value.trim();
-      const email = document.getElementById('signerEmail').value.trim();
-      const errorEl = document.getElementById('form-error');
-      const btn = document.getElementById('btnSign');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span> Generando documento...';
 
-      // Validar
-      errorEl.style.display = 'none';
-      if (!name || !email) {
-        errorEl.innerHTML = '<span class="icon">⚠</span> Ingresa nombre y correo del firmante.';
-        errorEl.style.display = 'flex';
-        return;
-      }
-
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        errorEl.innerHTML = '<span class="icon">⚠</span> El correo electrónico no parece válido.';
-        errorEl.style.display = 'flex';
-        return;
-      }
-
-      // Loading state
-      btn.disabled = true;
-      btn.innerHTML = '<span class="spinner"></span> Creando sesión...';
-
-      try {
-        const response = await fetch('/api/create-signing-session', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ signerName: name, signerEmail: email }),
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-          // Manejar error de consentimiento
-          if (data.error === 'consent_required') {
-            errorEl.innerHTML = `
-              <span class="icon">🔑</span>
-              <div>
-                <strong>Se necesita consentimiento.</strong><br>
-                <a href="${data.consentUrl}" target="_blank" rel="noopener">
-                  Haz clic aquí para otorgar permisos
-                </a> y luego intenta de nuevo.
-              </div>`;
-            errorEl.className = 'status-msg warning';
-            errorEl.style.display = 'flex';
-            btn.disabled = false;
-            btn.innerHTML = 'Iniciar firma embebida';
-            return;
-          }
-
-          throw new Error(data.error || 'Error del servidor');
+    try {
+      const response = await fetch('/api/create-signing-session', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await response.json();
+      if (!response.ok) {
+        if (result.error === 'consent_required') {
+          errorEl.innerHTML = `<span class="icon">🔑</span><div><strong>Se necesita consentimiento.</strong><br><a href="${result.consentUrl}" target="_blank">Haz clic aquí para otorgar permisos</a> y luego intenta de nuevo.</div>`;
+          errorEl.className = 'status-msg warning'; errorEl.style.display = 'flex';
+          btn.disabled = false; btn.innerHTML = 'Generar y firmar solicitud →'; return;
         }
-
-        // Éxito — abrir iframe con la URL de firma
-        currentEnvelopeId = data.envelopeId;
-        document.getElementById('envelope-id-display').textContent =
-          `Envelope: ${data.envelopeId.substring(0, 8)}...`;
-
-        document.getElementById('signing-iframe').src = data.signingUrl;
-        goToStep(2);
-
-      } catch (err) {
-        errorEl.innerHTML = `<span class="icon">✕</span> ${err.message}`;
-        errorEl.className = 'status-msg error';
-        errorEl.style.display = 'flex';
-        btn.disabled = false;
-        btn.innerHTML = 'Iniciar firma embebida';
+        throw new Error(result.error || 'Error del servidor');
       }
+      currentEnvelopeId = result.envelopeId;
+      document.getElementById('envelope-id-display').textContent = `Envelope: ${result.envelopeId.substring(0,8)}...`;
+      document.getElementById('signing-iframe').src = result.signingUrl;
+      goToStep(2);
+    } catch (err) {
+      errorEl.innerHTML = `<span class="icon">✕</span> ${err.message}`;
+      errorEl.className = 'status-msg error'; errorEl.style.display = 'flex';
+      btn.disabled = false; btn.innerHTML = 'Generar y firmar solicitud →';
     }
+  }
 
-    // ── Escuchar eventos del iframe (callback postMessage) ──
-    window.addEventListener('message', (event) => {
-      if (event.data?.type !== 'docusign-event') return;
+  window.addEventListener('message', (event) => {
+    if (event.data?.type !== 'docusign-event') return;
+    const dsEvent = event.data.event;
+    const resultEl = document.getElementById('result-content');
+    const messages = {
+      signing_complete: { type:'success', icon:'✓', title:'Documento firmado exitosamente', desc:'La solicitud de crédito fue firmada correctamente.' },
+      decline: { type:'error', icon:'✕', title:'Firma rechazada', desc:'El solicitante decidió no firmar.' },
+      cancel: { type:'warning', icon:'—', title:'Firma cancelada', desc:'La sesión se cerró sin completarse.' },
+      ttl_expired: { type:'warning', icon:'⏱', title:'Sesión expirada', desc:'El tiempo de la sesión se agotó.' },
+    };
+    const msg = messages[dsEvent] || { type:'warning', icon:'?', title:'Evento recibido', desc:`Evento: ${dsEvent}` };
+    resultEl.innerHTML = `
+      <div class="status-msg ${msg.type} fade-in"><span class="icon">${msg.icon}</span><div><strong>${msg.title}</strong><br>${msg.desc}</div></div>
+      <div class="result-detail">envelope_id: ${currentEnvelopeId}<br>event: ${dsEvent}<br>timestamp: ${new Date().toISOString()}</div>
+      <button class="btn btn-outline" style="margin-top:20px;" onclick="resetDemo()">Nueva solicitud</button>`;
+    goToStep(3);
+  });
 
-      const dsEvent = event.data.event;
-      const resultEl = document.getElementById('result-content');
-
-      const messages = {
-        signing_complete: {
-          type: 'success',
-          icon: '✓',
-          title: 'Documento firmado exitosamente',
-          desc: 'La firma electrónica se completó correctamente.',
-        },
-        decline: {
-          type: 'error',
-          icon: '✕',
-          title: 'Firma rechazada',
-          desc: 'El firmante decidió no firmar el documento.',
-        },
-        cancel: {
-          type: 'warning',
-          icon: '—',
-          title: 'Firma cancelada',
-          desc: 'El firmante cerró la sesión sin completar.',
-        },
-        ttl_expired: {
-          type: 'warning',
-          icon: '⏱',
-          title: 'Sesión expirada',
-          desc: 'El tiempo de la sesión de firma se agotó.',
-        },
-      };
-
-      const msg = messages[dsEvent] || {
-        type: 'warning',
-        icon: '?',
-        title: 'Evento recibido',
-        desc: `Evento: ${dsEvent}`,
-      };
-
-      resultEl.innerHTML = `
-        <div class="status-msg ${msg.type} fade-in">
-          <span class="icon">${msg.icon}</span>
-          <div>
-            <strong>${msg.title}</strong><br>
-            ${msg.desc}
-          </div>
-        </div>
-        <div class="result-detail">
-          envelope_id: ${currentEnvelopeId}<br>
-          event: ${dsEvent}<br>
-          timestamp: ${new Date().toISOString()}
-        </div>
-        <button class="btn btn-outline" style="margin-top: 20px;" onclick="resetDemo()">
-          Nueva firma
-        </button>
-      `;
-
-      goToStep(3);
-    });
-
-    // ── Reset ──
-    function resetDemo() {
-      document.getElementById('signerName').value = '';
-      document.getElementById('signerEmail').value = '';
-      document.getElementById('form-error').style.display = 'none';
-      document.getElementById('btnSign').disabled = false;
-      document.getElementById('btnSign').innerHTML = 'Iniciar firma embebida';
-      document.getElementById('signing-iframe').src = '';
-      currentEnvelopeId = null;
-      goToStep(1);
-    }
-  </script>
+  function resetDemo() {
+    document.querySelectorAll('input').forEach(el => el.value = el.id === 'nacionalidad' ? 'Mexicana' : '');
+    document.querySelectorAll('select').forEach(el => el.value = '');
+    document.getElementById('form-error').style.display = 'none';
+    document.getElementById('btnSign').disabled = false;
+    document.getElementById('btnSign').innerHTML = 'Generar y firmar solicitud →';
+    document.getElementById('signing-iframe').src = '';
+    document.getElementById('creditSummary').classList.remove('visible');
+    currentEnvelopeId = null; goToStep(1);
+  }
+</script>
 </body>
 </html>

@@ -11,6 +11,7 @@
   "dependencies": {
     "docusign-esign": "^8.0.1",
     "dotenv": "^16.4.7",
-    "express": "^4.21.2"
+    "express": "^4.21.2",
+    "pdfkit": "^0.18.0"
   }
 }
