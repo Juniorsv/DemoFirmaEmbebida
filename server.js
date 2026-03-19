@@ -137,15 +137,15 @@ app.post("/api/create-signing-session", async function (req, res) {
     const envelopeId = envelopeResult.envelopeId;
     console.log("Envelope creado: " + envelopeId);
 
-    const viewRequest = {
-      returnUrl: "http://localhost:" + PORT + "/callback",
-      authenticationMethod: "none",
-      email: signerEmail,
-      userName: signerName,
-      clientUserId: clientUserId,
-      frameAncestors: ["http://localhost:" + PORT],
-      messageOrigins: ["http://localhost:" + PORT],
-    };
+ const viewRequest = {
+  returnUrl: process.env.DS_RETURN_URL || `http://localhost:${PORT}/callback`,
+  authenticationMethod: "none",
+  email: signerEmail,
+  userName: signerName,
+  clientUserId: clientUserId,
+  frameAncestors: [process.env.DS_BASE_FRONTEND_URL || `http://localhost:${PORT}`],
+  messageOrigins: [process.env.DS_BASE_FRONTEND_URL || `http://localhost:${PORT}`],
+};
 
     const recipientView = await envelopesApi.createRecipientView(
       accountId,
