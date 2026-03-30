@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Solicitud de Crédito Personal — Banco Demo</title>
+  <title>Solicitud de Crédito Personal — Banco Demo Docusign</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -32,7 +32,7 @@
     .card .subtitle { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; }
     .section-label { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--accent); margin: 24px 0 14px; padding-bottom: 8px; border-bottom: 1.5px solid var(--accent-light); display: flex; align-items: center; gap: 8px; }
     .section-label::before { content:''; display:inline-block; width:4px; height:14px; background:var(--accent); border-radius:2px; flex-shrink:0; }
-    .field-row { display: grid; gap: 14px; margin-bottom: 0; }
+    .field-row { display: grid; gap: 14px; }
     .field-row.cols-2 { grid-template-columns: 1fr 1fr; }
     .field-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
     .field-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
@@ -55,40 +55,82 @@
     .btn-primary:disabled { opacity: .5; cursor: not-allowed; }
     .btn-outline { background: transparent; color: var(--accent); border: 1.5px solid var(--accent); }
     .btn-outline:hover { background: var(--accent-light); }
+    .btn-ghost { background: transparent; color: var(--text-muted); border: 1.5px solid var(--border); }
+    .btn-ghost:hover { background: var(--bg); }
     .spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3); border-top-color: white; border-radius: 50%; animation: spin .6s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Selector de verificación ── */
+    .verify-options { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 8px 0 24px; }
+    .verify-option { position: relative; cursor: pointer; }
+    .verify-option input[type="radio"] { position: absolute; opacity: 0; width: 0; height: 0; }
+    .verify-card {
+      border: 2px solid var(--border); border-radius: 12px; padding: 20px 18px;
+      transition: all .2s; background: var(--bg); display: flex; flex-direction: column; gap: 8px;
+    }
+    .verify-option input:checked + .verify-card {
+      border-color: var(--accent); background: var(--accent-light);
+      box-shadow: 0 0 0 3px rgba(108,92,231,.1);
+    }
+    .verify-card:hover { border-color: var(--accent); }
+    .verify-icon { font-size: 28px; }
+    .verify-title { font-size: 15px; font-weight: 600; color: var(--text); }
+    .verify-desc { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
+    .verify-badge {
+      display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: .06em;
+      text-transform: uppercase; padding: 2px 8px; border-radius: 20px; margin-top: 4px;
+    }
+    .verify-badge.otp { background: #E6FAF4; color: #00B894; }
+    .verify-badge.idv { background: #EDE9FF; color: #6C5CE7; }
+
+    /* ── OTP display ── */
+    .otp-display {
+      text-align: center; padding: 24px; background: #E6FAF4;
+      border-radius: 12px; margin-bottom: 20px; border: 1px solid #00B894;
+    }
+    .otp-display .otp-label { font-size: 12px; color: #065F46; text-transform: uppercase; letter-spacing: .1em; margin-bottom: 8px; }
+    .otp-display .otp-code { font-family: var(--mono); font-size: 36px; font-weight: 700; color: #065F46; letter-spacing: 8px; }
+    .otp-display .otp-note { font-size: 12px; color: #065F46; margin-top: 8px; opacity: .8; }
+
     .signing-frame-wrapper { width: 100%; background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
     .frame-header { display: flex; align-items: center; justify-content: space-between; padding: 12px 20px; background: var(--bg); border-bottom: 1px solid var(--border); font-size: 13px; color: var(--text-muted); }
     .live-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; display: inline-block; margin-right: 6px; animation: pulse 2s ease-in-out infinite; }
     @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:.4; } }
     .signing-frame-wrapper iframe { width: 100%; height: 620px; border: none; }
+
     .status-msg { padding: 14px 18px; border-radius: 8px; font-size: 14px; line-height: 1.5; display: flex; align-items: flex-start; gap: 10px; }
     .status-msg.success { background: var(--success-bg); color: #065F46; }
     .status-msg.error { background: var(--error-bg); color: #922B21; }
     .status-msg.warning { background: var(--warning-bg); color: #7D6608; }
     .status-msg .icon { font-size: 18px; flex-shrink: 0; }
     .result-detail { margin-top: 16px; padding: 12px 16px; background: var(--bg); border-radius: 8px; font-family: var(--mono); font-size: 13px; color: var(--text-muted); line-height: 1.7; }
+
     footer { text-align: center; margin-top: 40px; font-size: 12px; color: var(--text-muted); }
     footer a { color: var(--accent); text-decoration: none; }
     .fade-in { animation: fadeIn .4s ease; }
     @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-    @media (max-width:600px) { .field-row.cols-2,.field-row.cols-3,.field-row.cols-4 { grid-template-columns:1fr; } }
+    @media (max-width:600px) {
+      .field-row.cols-2,.field-row.cols-3,.field-row.cols-4,.verify-options { grid-template-columns:1fr; }
+    }
   </style>
 </head>
 <body>
 <div class="container">
+
   <header>
     <div class="badge">Demo en vivo</div>
     <h1>Solicitud de Crédito Personal</h1>
-    <p>Completa tu solicitud. Se generará un PDF con tus datos<br>y lo firmarás directamente con DocuSign.</p>
+    <p>Completa tu solicitud, elige cómo verificar tu identidad<br>y fírmala con DocuSign.</p>
   </header>
+
   <div class="steps">
     <div class="step-dot active" id="dot-1"></div>
     <div class="step-dot" id="dot-2"></div>
     <div class="step-dot" id="dot-3"></div>
+    <div class="step-dot" id="dot-4"></div>
   </div>
 
-  <!-- STEP 1 -->
+  <!-- ── STEP 1: Formulario ── -->
   <div class="card" id="step-form">
     <h2>Datos de la solicitud</h2>
     <p class="subtitle">Todos los campos se incluirán en el documento que firmarás electrónicamente.</p>
@@ -154,11 +196,52 @@
     </div>
 
     <div id="form-error" class="status-msg error" style="display:none;margin-bottom:16px;"></div>
-    <button class="btn btn-primary" id="btnSign" onclick="startSigning()">Generar y firmar solicitud →</button>
+    <button class="btn btn-primary" id="btnNext" onclick="goToVerification()">Continuar → Verificación de identidad</button>
   </div>
 
-  <!-- STEP 2 -->
+  <!-- ── STEP 2: Verificación ── -->
+  <div class="card hidden" id="step-verify">
+    <h2>Verificación de identidad</h2>
+    <p class="subtitle">Elige cómo deseas verificar tu identidad antes de firmar el documento.</p>
+
+    <div class="verify-options">
+      <label class="verify-option">
+        <input type="radio" name="verificationMethod" value="otp" checked>
+        <div class="verify-card">
+          <div class="verify-icon">📧</div>
+          <div class="verify-title">Código OTP</div>
+          <div class="verify-desc">Recibirás un código de 6 dígitos en tu correo electrónico para verificar tu identidad.</div>
+          <span class="verify-badge otp">Rápido · Sin documentos</span>
+        </div>
+      </label>
+      <label class="verify-option">
+        <input type="radio" name="verificationMethod" value="idv">
+        <div class="verify-card">
+          <div class="verify-icon">🪪</div>
+          <div class="verify-title">ID Verification</div>
+          <div class="verify-desc">Verifica tu identidad con tu INE, pasaporte o documento oficial más una selfie.</div>
+          <span class="verify-badge idv">Mayor seguridad · DocuSign IDV</span>
+        </div>
+      </label>
+    </div>
+
+    <div id="verify-error" class="status-msg error" style="display:none;margin-bottom:16px;"></div>
+
+    <div style="display:grid;grid-template-columns:1fr 2fr;gap:12px;">
+      <button class="btn btn-ghost" onclick="backToForm()">← Regresar</button>
+      <button class="btn btn-primary" id="btnSign" onclick="startSigning()">Generar y firmar solicitud →</button>
+    </div>
+  </div>
+
+  <!-- ── STEP 3: Iframe ── -->
   <div id="step-signing" class="hidden">
+    <!-- OTP display -->
+    <div id="otp-display" class="otp-display hidden fade-in" style="margin-bottom:16px;">
+      <div class="otp-label">Tu código de acceso OTP</div>
+      <div class="otp-code" id="otp-code-value">------</div>
+      <div class="otp-note">DocuSign te pedirá este código antes de mostrarte el documento</div>
+    </div>
+
     <div class="signing-frame-wrapper fade-in">
       <div class="frame-header">
         <span><span class="live-dot"></span> Sesión de firma activa</span>
@@ -168,7 +251,7 @@
     </div>
   </div>
 
-  <!-- STEP 3 -->
+  <!-- ── STEP 4: Resultado ── -->
   <div class="card hidden" id="step-result"><div id="result-content"></div></div>
 
   <footer>Integración con <a href="https://developers.docusign.com" target="_blank" rel="noopener">DocuSign eSignature API</a> · Ambiente de demostración</footer>
@@ -176,7 +259,9 @@
 
 <script>
   let currentEnvelopeId = null;
+  let formData = {};
 
+  // ── Resumen dinámico ──
   function updateSummary() {
     const amount = parseFloat(document.getElementById('creditAmount').value);
     const term = parseInt(document.getElementById('creditTerm').value);
@@ -195,11 +280,12 @@
   document.getElementById('creditAmount').addEventListener('input', updateSummary);
   document.getElementById('creditTerm').addEventListener('change', updateSummary);
 
+  // ── Steps ──
   function goToStep(step) {
-    document.getElementById('step-form').classList.toggle('hidden', step !== 1);
-    document.getElementById('step-signing').classList.toggle('hidden', step !== 2);
-    document.getElementById('step-result').classList.toggle('hidden', step !== 3);
-    for (let i = 1; i <= 3; i++) {
+    ['step-form','step-verify','step-signing','step-result'].forEach((id, i) => {
+      document.getElementById(id).classList.toggle('hidden', step !== i + 1);
+    });
+    for (let i = 1; i <= 4; i++) {
       const d = document.getElementById(`dot-${i}`);
       d.classList.remove('active','done');
       if (i < step) d.classList.add('done');
@@ -207,36 +293,37 @@
     }
   }
 
-  function getFormData() {
+  // ── Recoger datos del formulario ──
+  function collectFormData() {
     return {
-      signerName: document.getElementById('signerName').value.trim(),
-      signerEmail: document.getElementById('signerEmail').value.trim(),
+      signerName:      document.getElementById('signerName').value.trim(),
+      signerEmail:     document.getElementById('signerEmail').value.trim(),
       fechaNacimiento: document.getElementById('fechaNacimiento').value,
       lugarNacimiento: document.getElementById('lugarNacimiento').value.trim(),
-      rfc: document.getElementById('rfc').value.trim().toUpperCase(),
-      curp: document.getElementById('curp').value.trim().toUpperCase(),
-      estadoCivil: document.getElementById('estadoCivil').value,
-      nacionalidad: document.getElementById('nacionalidad').value.trim(),
-      telefono: document.getElementById('telefono').value.trim(),
-      domicilio: document.getElementById('domicilio').value.trim(),
-      ciudad: document.getElementById('ciudad').value.trim(),
-      estado: document.getElementById('estado').value.trim(),
-      codigoPostal: document.getElementById('codigoPostal').value.trim(),
-      empresa: document.getElementById('empresa').value.trim(),
-      puesto: document.getElementById('puesto').value.trim(),
-      antiguedad: document.getElementById('antiguedad').value,
-      ingresoMensual: document.getElementById('ingresoMensual').value,
-      otrosIngresos: document.getElementById('otrosIngresos').value || '0',
-      creditAmount: document.getElementById('creditAmount').value,
-      creditTerm: document.getElementById('creditTerm').value,
-      destinoCredito: document.getElementById('destinoCredito').value,
+      rfc:             document.getElementById('rfc').value.trim().toUpperCase(),
+      curp:            document.getElementById('curp').value.trim().toUpperCase(),
+      estadoCivil:     document.getElementById('estadoCivil').value,
+      nacionalidad:    document.getElementById('nacionalidad').value.trim(),
+      telefono:        document.getElementById('telefono').value.trim(),
+      domicilio:       document.getElementById('domicilio').value.trim(),
+      ciudad:          document.getElementById('ciudad').value.trim(),
+      estado:          document.getElementById('estado').value.trim(),
+      codigoPostal:    document.getElementById('codigoPostal').value.trim(),
+      empresa:         document.getElementById('empresa').value.trim(),
+      puesto:          document.getElementById('puesto').value.trim(),
+      antiguedad:      document.getElementById('antiguedad').value,
+      ingresoMensual:  document.getElementById('ingresoMensual').value,
+      otrosIngresos:   document.getElementById('otrosIngresos').value || '0',
+      creditAmount:    document.getElementById('creditAmount').value,
+      creditTerm:      document.getElementById('creditTerm').value,
+      destinoCredito:  document.getElementById('destinoCredito').value,
     };
   }
 
-  async function startSigning() {
-    const data = getFormData();
+  // ── Ir a verificación ──
+  function goToVerification() {
+    const data = collectFormData();
     const errorEl = document.getElementById('form-error');
-    const btn = document.getElementById('btnSign');
     errorEl.style.display = 'none';
 
     const required = [
@@ -260,42 +347,76 @@
       errorEl.style.display = 'flex'; return;
     }
 
+    formData = data;
+    goToStep(2);
+  }
+
+  function backToForm() { goToStep(1); }
+
+  // ── Iniciar firma ──
+  async function startSigning() {
+    const verificationMethod = document.querySelector('input[name="verificationMethod"]:checked').value;
+    const errorEl = document.getElementById('verify-error');
+    const btn = document.getElementById('btnSign');
+    errorEl.style.display = 'none';
+
     btn.disabled = true;
     btn.innerHTML = '<span class="spinner"></span> Generando documento...';
 
     try {
       const response = await fetch('/api/create-signing-session', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, verificationMethod }),
       });
+
       const result = await response.json();
+
       if (!response.ok) {
         if (result.error === 'consent_required') {
-          errorEl.innerHTML = `<span class="icon">🔑</span><div><strong>Se necesita consentimiento.</strong><br><a href="${result.consentUrl}" target="_blank">Haz clic aquí para otorgar permisos</a> y luego intenta de nuevo.</div>`;
-          errorEl.className = 'status-msg warning'; errorEl.style.display = 'flex';
-          btn.disabled = false; btn.innerHTML = 'Generar y firmar solicitud →'; return;
+          errorEl.innerHTML = `<span class="icon">🔑</span><div><strong>Se necesita consentimiento.</strong><br><a href="${result.consentUrl}" target="_blank">Haz clic aquí</a> y luego intenta de nuevo.</div>`;
+          errorEl.className = 'status-msg warning';
+          errorEl.style.display = 'flex';
+          btn.disabled = false;
+          btn.innerHTML = 'Generar y firmar solicitud →';
+          return;
         }
         throw new Error(result.error || 'Error del servidor');
       }
+
       currentEnvelopeId = result.envelopeId;
       document.getElementById('envelope-id-display').textContent = `Envelope: ${result.envelopeId.substring(0,8)}...`;
+
+      // Mostrar OTP si aplica
+      const otpDisplay = document.getElementById('otp-display');
+      if (result.otpCode) {
+        document.getElementById('otp-code-value').textContent = result.otpCode;
+        otpDisplay.classList.remove('hidden');
+      } else {
+        otpDisplay.classList.add('hidden');
+      }
+
       document.getElementById('signing-iframe').src = result.signingUrl;
-      goToStep(2);
+      goToStep(3);
+
     } catch (err) {
       errorEl.innerHTML = `<span class="icon">✕</span> ${err.message}`;
-      errorEl.className = 'status-msg error'; errorEl.style.display = 'flex';
-      btn.disabled = false; btn.innerHTML = 'Generar y firmar solicitud →';
+      errorEl.className = 'status-msg error';
+      errorEl.style.display = 'flex';
+      btn.disabled = false;
+      btn.innerHTML = 'Generar y firmar solicitud →';
     }
   }
 
+  // ── Eventos del iframe ──
   window.addEventListener('message', (event) => {
     if (event.data?.type !== 'docusign-event') return;
     const dsEvent = event.data.event;
     const resultEl = document.getElementById('result-content');
     const messages = {
       signing_complete: { type:'success', icon:'✓', title:'Documento firmado exitosamente', desc:'La solicitud de crédito fue firmada correctamente.' },
-      decline: { type:'error', icon:'✕', title:'Firma rechazada', desc:'El solicitante decidió no firmar.' },
-      cancel: { type:'warning', icon:'—', title:'Firma cancelada', desc:'La sesión se cerró sin completarse.' },
+      decline:  { type:'error',   icon:'✕', title:'Firma rechazada',  desc:'El solicitante decidió no firmar.' },
+      cancel:   { type:'warning', icon:'—', title:'Firma cancelada',  desc:'La sesión se cerró sin completarse.' },
       ttl_expired: { type:'warning', icon:'⏱', title:'Sesión expirada', desc:'El tiempo de la sesión se agotó.' },
     };
     const msg = messages[dsEvent] || { type:'warning', icon:'?', title:'Evento recibido', desc:`Evento: ${dsEvent}` };
@@ -303,18 +424,23 @@
       <div class="status-msg ${msg.type} fade-in"><span class="icon">${msg.icon}</span><div><strong>${msg.title}</strong><br>${msg.desc}</div></div>
       <div class="result-detail">envelope_id: ${currentEnvelopeId}<br>event: ${dsEvent}<br>timestamp: ${new Date().toISOString()}</div>
       <button class="btn btn-outline" style="margin-top:20px;" onclick="resetDemo()">Nueva solicitud</button>`;
-    goToStep(3);
+    goToStep(4);
   });
 
+  // ── Reset ──
   function resetDemo() {
-    document.querySelectorAll('input').forEach(el => el.value = el.id === 'nacionalidad' ? 'Mexicana' : '');
+    document.querySelectorAll('input:not([type="radio"])').forEach(el => {
+      el.value = el.id === 'nacionalidad' ? 'Mexicana' : '';
+    });
     document.querySelectorAll('select').forEach(el => el.value = '');
-    document.getElementById('form-error').style.display = 'none';
+    document.querySelector('input[name="verificationMethod"][value="otp"]').checked = true;
+    ['form-error','verify-error'].forEach(id => document.getElementById(id).style.display = 'none');
     document.getElementById('btnSign').disabled = false;
     document.getElementById('btnSign').innerHTML = 'Generar y firmar solicitud →';
     document.getElementById('signing-iframe').src = '';
     document.getElementById('creditSummary').classList.remove('visible');
-    currentEnvelopeId = null; goToStep(1);
+    currentEnvelopeId = null; formData = {};
+    goToStep(1);
   }
 </script>
 </body>
