@@ -100,7 +100,7 @@ app.post("/api/create-signing-session", async function (req, res) {
           phoneNumberList: [],
         }],
       };
-      authenticationMethod = "idcheck";
+      authenticationMethod = "none";
       console.log(`IDV configurado con workflow: ${IDV_WORKFLOW_ID}`);
     }
 
