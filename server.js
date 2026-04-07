@@ -14,7 +14,7 @@ app.use(express.json());
 app.use(express.static(path.join(__dirname, "public")));
 
 const PORT = process.env.PORT || 3000;
-const IDV_WORKFLOW_ID = process.env.DS_IDV_WORKFLOW_ID || "c44d8dc1-ff21-47e5-94bc-e7791bfcd2e0";
+const IDV_WORKFLOW_ID = process.env.DS_IDV_WORKFLOW_ID || "bd5a3688-3ea2-4476-a644-07fd92009f77";
 
 // ── 1. AUTENTICACIÓN JWT ──────────────────────────────────────────────────────
 async function getAccessToken() {
